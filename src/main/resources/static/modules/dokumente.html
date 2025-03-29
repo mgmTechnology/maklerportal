@@ -1,0 +1,131 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Dokumente</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+            <i class="bi bi-cloud-upload"></i> Dokument hochladen
+        </button>
+    </div>
+
+    <!-- Filter und Suche -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Dokumententyp</label>
+                    <select class="form-select" id="documentType">
+                        <option value="">Alle</option>
+                        <option value="vertrag">Verträge</option>
+                        <option value="antrag">Anträge</option>
+                        <option value="schaden">Schadensmeldungen</option>
+                        <option value="korrespondenz">Korrespondenz</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Datum von</label>
+                    <input type="date" class="form-control" id="dateFrom">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Datum bis</label>
+                    <input type="date" class="form-control" id="dateTo">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Suche</label>
+                    <input type="text" class="form-control" id="searchDocs" placeholder="Dokument suchen...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dokumentenliste -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="documentsTable">
+                    <thead>
+                        <tr>
+                            <th>Dokumentenname</th>
+                            <th>Typ</th>
+                            <th>Datum</th>
+                            <th>Größe</th>
+                            <th>Hochgeladen von</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentsTableBody">
+                        <!-- Wird durch JavaScript gefüllt -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dokument hochladen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm">
+                    <div class="mb-3">
+                        <label class="form-label">Dokumententyp</label>
+                        <select class="form-select" required>
+                            <option value="">Bitte wählen...</option>
+                            <option value="vertrag">Vertrag</option>
+                            <option value="antrag">Antrag</option>
+                            <option value="schaden">Schadensmeldung</option>
+                            <option value="korrespondenz">Korrespondenz</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dokument</label>
+                        <input type="file" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Beschreibung</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Zuordnung</label>
+                        <select class="form-select">
+                            <option value="">Optional: Vertrag/Kunde zuordnen</option>
+                            <option value="vs-2024-001">VS-2024-001 (Thomas Schmidt)</option>
+                            <option value="vs-2024-002">VS-2024-002 (Maria Müller)</option>
+                            <option value="vs-2024-003">VS-2024-003 (Peter Wagner)</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-primary" onclick="uploadDocument()">Hochladen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dokumentenvorschau</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="documentPreview" class="text-center">
+                    <!-- Vorschau wird hier eingefügt -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="downloadDocument()">
+                    <i class="bi bi-download"></i> Herunterladen
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>

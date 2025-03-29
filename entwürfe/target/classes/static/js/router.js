@@ -1,0 +1,1 @@
+function loadModule(name) { console.log('Lade Modul:', name); }

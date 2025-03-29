@@ -1,0 +1,1 @@
+function initAngebotsrechner() { console.log('Angebotsrechner Modul geladen'); } document.addEventListener('DOMContentLoaded', initAngebotsrechner);

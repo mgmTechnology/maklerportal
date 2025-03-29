@@ -1,0 +1,1 @@
+function initSupport() { console.log('Support Modul geladen'); } document.addEventListener('DOMContentLoaded', initSupport);

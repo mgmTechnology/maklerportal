@@ -1,0 +1,1 @@
+function initDokumente() { console.log('Dokumente Modul geladen'); } document.addEventListener('DOMContentLoaded', initDokumente);

@@ -1,0 +1,1 @@
+function initVertrage() { console.log('Vertrage Modul geladen'); } document.addEventListener('DOMContentLoaded', initVertrage);
