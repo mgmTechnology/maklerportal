@@ -39,27 +39,87 @@ class Router {
         document.getElementById('themeToggle').addEventListener('click', () => {
             this.toggleTheme();
         });
-
-        // Prüfe Login-Status
-        this.checkAuth();
-
-        // Lade Standard-Modul (Dashboard)
-        this.loadModule('dashboard');
     }
 
     /**
-     * Prüft den Authentifizierungsstatus
+     * Initialisiert das Theme basierend auf localStorage
      */
-    checkAuth() {
-        const userRole = sessionStorage.getItem('userRole');
-        if (!userRole) {
+    initTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        this.updateThemeButton(savedTheme);
+    }
+
+    /**
+     * Wechselt zwischen Light und Dark Theme
+     */
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        this.updateThemeButton(newTheme);
+    }
+
+    /**
+     * Aktualisiert das Theme-Toggle-Button-Icon
+     * @param {string} theme - Aktuelles Theme ('light' oder 'dark')
+     */
+    updateThemeButton(theme) {
+        const button = document.getElementById('themeToggle');
+        if (button) {
+            button.innerHTML = `<i class="bi bi-${theme === 'dark' ? 'sun' : 'moon'}"></i>`;
+        }
+    }
+
+    /**
+     * Behandelt den Logout-Prozess
+     */
+    handleLogout() {
+        sessionStorage.removeItem('userRole');
+        window.location.href = 'login.html';
+    }
+
+    /**
+     * Zeigt das entsprechende Menü basierend auf der Benutzerrolle an
+     * @function
+     */
+    showRoleMenu() {
+        const role = sessionStorage.getItem('userRole');
+        const maklerMenu = document.getElementById('maklerMenu');
+        const betreuerMenu = document.getElementById('betreuerMenu');
+        
+        if (!role) {
             window.location.href = 'login.html';
             return;
         }
+        
+        console.log('Aktuelle Rolle:', role); // Debug-Ausgabe
+        
+        if (role === 'makler') {
+            console.log('Zeige Makler-Menü'); // Debug-Ausgabe
+            maklerMenu.style.display = 'block';
+            betreuerMenu.style.display = 'none';
+        } else if (role === 'betreuer') {
+            console.log('Zeige Betreuer-Menü'); // Debug-Ausgabe
+            maklerMenu.style.display = 'none';
+            betreuerMenu.style.display = 'block';
+        }
+    }
 
-        // Zeige Benutzerinformationen
-        const userInfo = document.getElementById('userInfo');
-        userInfo.innerHTML = `<i class="bi bi-person-circle"></i> ${userRole}`;
+    /**
+     * Setzt die Benutzerrolle für Testzwecke
+     * @param {string} role - Die zu setzende Rolle ('makler' oder 'betreuer')
+     */
+    setUserRole(role) {
+        if (role === 'makler' || role === 'betreuer') {
+            console.log('Setze Rolle auf:', role); // Debug-Ausgabe
+            sessionStorage.setItem('userRole', role);
+            this.showRoleMenu();
+            // Lade das Dashboard als Standardmodul
+            this.loadModule('dashboard');
+        }
     }
 
     /**
@@ -68,6 +128,8 @@ class Router {
      */
     async loadModule(moduleName) {
         try {
+            console.log('Lade Modul:', moduleName); // Debug-Ausgabe
+            
             // Lade HTML-Content
             const response = await fetch(`modules/${moduleName}.html`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -101,49 +163,16 @@ class Router {
             document.getElementById('main-content').innerHTML = '<div class="alert alert-danger">Fehler beim Laden des Moduls</div>';
         }
     }
-
-    /**
-     * Initialisiert das Theme basierend auf localStorage
-     */
-    initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        this.updateThemeButton(savedTheme);
-    }
-
-    /**
-     * Wechselt zwischen Light und Dark Theme
-     */
-    toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        this.updateThemeButton(newTheme);
-    }
-
-    /**
-     * Aktualisiert das Theme-Toggle-Button-Icon
-     * @param {string} theme - Aktuelles Theme ('light' oder 'dark')
-     */
-    updateThemeButton(theme) {
-        const button = document.getElementById('themeToggle');
-        button.innerHTML = theme === 'dark' ? 
-            '<i class="bi bi-sun"></i>' : 
-            '<i class="bi bi-moon"></i>';
-    }
-
-    /**
-     * Behandelt den Logout-Prozess
-     */
-    handleLogout() {
-        sessionStorage.removeItem('userRole');
-        window.location.href = 'login.html';
-    }
 }
 
-// Initialisiere Router wenn DOM geladen ist
+// Erstelle eine globale Router-Instanz
+let router;
+
+// Event Listener für das Laden der Seite
 document.addEventListener('DOMContentLoaded', () => {
-    window.router = new Router();
+    console.log('DOM geladen'); // Debug-Ausgabe
+    router = new Router();
+    
+    // Setze für Testzwecke die Rolle auf 'betreuer'
+    router.setUserRole('betreuer');
 });
