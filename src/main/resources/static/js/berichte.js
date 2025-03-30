@@ -147,196 +147,114 @@ function loadKPIs() {
 }
 
 /**
- * Initialisiert die Charts
+ * Initialisiert die Charts und Visualisierungen
  * @function
  */
 function initializeCharts() {
-    // Vertragsentwicklung Chart
-    const contractsCtx = document.getElementById('contractsChart').getContext('2d');
-    new Chart(contractsCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-            datasets: [
-                {
-                    label: 'Verträge 2024',
-                    data: [125, 138, 142, 148, 152, 158, 162, 168, 172, 178, 182, 185],
-                    borderColor: '#2c7be5',
-                    tension: 0.4
-                },
-                {
-                    label: 'Verträge 2023',
-                    data: [115, 122, 128, 132, 138, 142, 145, 150, 154, 158, 162, 165],
-                    borderColor: '#d8e2ef',
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Produktverteilung Chart
-    const productCtx = document.getElementById('productDistributionChart').getContext('2d');
-    new Chart(productCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Leben', 'KFZ', 'Sach', 'Kranken', 'Sonstige'],
-            datasets: [{
-                data: [35, 28, 20, 12, 5],
-                backgroundColor: [
-                    '#2c7be5',
-                    '#00d97e',
-                    '#6b5eae',
-                    '#e63757',
-                    '#39afd1'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-
-    // Regionale Verteilung Chart
-    const regionalCtx = document.getElementById('regionalDistributionChart').getContext('2d');
-    new Chart(regionalCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Nord', 'Süd', 'West', 'Ost'],
-            datasets: [
-                {
-                    label: 'Verträge',
-                    data: [485, 520, 465, 380],
-                    backgroundColor: '#2c7be5'
-                },
-                {
-                    label: 'Makler',
-                    data: [12, 15, 10, 8],
-                    backgroundColor: '#00d97e'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Forecast Charts
-    initializeForecastCharts();
+    initVertragsentwicklung();
+    initProduktverteilung();
+    initRegionaleVerteilung();
 }
 
 /**
- * Initialisiert die Forecast-Charts
+ * Initialisiert das Chart für die Vertragsentwicklung
  * @function
  */
-function initializeForecastCharts() {
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+function initVertragsentwicklung() {
+    const ctx = document.getElementById('vertragsentwicklungChart').getContext('2d');
+    const data = {
+        labels: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+        datasets: [{
+            label: 'Abschlüsse',
+            data: [12, 15, 18, 22, 25, 28, 30, 32, 35, 38, 40, 42],
+            borderColor: 'rgb(54, 162, 235)',
+            tension: 0.1,
+            fill: false
+        }, {
+            label: 'Provisionen (in Tsd. €)',
+            data: [20, 25, 30, 35, 40, 45, 48, 50, 52, 55, 58, 60],
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            fill: false
+        }]
     };
-
-    // Vertragsabschlüsse Forecast
-    const contractsForecastCtx = document.getElementById('contractsForecastChart').getContext('2d');
-    new Chart(contractsForecastCtx, {
+    new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: ['Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep'],
-            datasets: [{
-                label: 'Forecast',
-                data: [185, 192, 198, 205, 212, 220],
-                borderColor: '#2c7be5',
-                backgroundColor: 'rgba(44, 123, 229, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: options
-    });
-
-    // Provisionen Forecast
-    const commissionsForecastCtx = document.getElementById('commissionsForecastChart').getContext('2d');
-    new Chart(commissionsForecastCtx, {
-        type: 'line',
-        data: {
-            labels: ['Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep'],
-            datasets: [{
-                label: 'Forecast',
-                data: [342500, 355000, 368000, 382000, 395000, 410000],
-                borderColor: '#00d97e',
-                backgroundColor: 'rgba(0, 217, 126, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
+        data: data,
         options: {
-            ...options,
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: value => (value / 1000).toFixed(0) + ' T€'
-                    }
+                    beginAtZero: true
                 }
             }
         }
     });
+}
 
-    // Maklerentwicklung Forecast
-    const brokersForecastCtx = document.getElementById('brokersForecastChart').getContext('2d');
-    new Chart(brokersForecastCtx, {
-        type: 'line',
-        data: {
-            labels: ['Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep'],
-            datasets: [{
-                label: 'Forecast',
-                data: [42, 44, 45, 47, 48, 50],
-                borderColor: '#6b5eae',
-                backgroundColor: 'rgba(107, 94, 174, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: options
+/**
+ * Initialisiert das Chart für die Produktverteilung
+ * @function
+ */
+function initProduktverteilung() {
+    const ctx = document.getElementById('produktverteilungChart').getContext('2d');
+    const data = {
+        labels: ['Lebensversicherung', 'KFZ', 'Hausrat', 'Haftpflicht', 'Kranken'],
+        datasets: [{
+            data: [30, 25, 20, 15, 10],
+            backgroundColor: [
+                'rgb(54, 162, 235)',
+                'rgb(75, 192, 192)',
+                'rgb(255, 205, 86)',
+                'rgb(255, 99, 132)',
+                'rgb(153, 102, 255)'
+            ]
+        }]
+    };
+    new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Initialisiert das Chart für die regionale Verteilung
+ * @function
+ */
+function initRegionaleVerteilung() {
+    const ctx = document.getElementById('regionaleVerteilungChart').getContext('2d');
+    const data = {
+        labels: ['Nord', 'Süd', 'West', 'Ost'],
+        datasets: [{
+            label: 'Verträge pro Region',
+            data: [250, 320, 280, 190],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 1
+        }]
+    };
+    new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 }
 

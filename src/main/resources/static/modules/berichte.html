@@ -50,6 +50,44 @@
         </div>
     </div>
 
+    <!-- Vertragsentwicklung Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Abschlüsse & Provisionen im Jahresverlauf</h5>
+                    <div style="height: 400px;">
+                        <canvas id="vertragsentwicklungChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produktverteilung und Regionale Verteilung -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Verteilung nach Produkten</h5>
+                    <div style="height: 300px;">
+                        <canvas id="produktverteilungChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Regionale Verteilung</h5>
+                    <div style="height: 300px;">
+                        <canvas id="regionaleVerteilungChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Hauptanalysen -->
     <div class="row mb-4">
         <!-- Vertragsentwicklung -->
@@ -253,8 +291,4 @@
             default: return 'secondary';
         }
     }
-</script>
-<script>
-    // Initialisierung
-    initBerichte();
 </script>
