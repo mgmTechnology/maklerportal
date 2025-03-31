@@ -1,178 +1,208 @@
 /**
  * Router-Klasse für die Navigation und Modul-Verwaltung
- * @class
  */
 class Router {
     constructor() {
-        this.currentModule = null;
-        this.init();
+        this.initializeRouter();
+        this.loadUserInfo();
     }
 
-    /**
-     * Initialisiert den Router und Event-Listener
-     */
-    init() {
-        // Theme-Management
-        this.initTheme();
-        
-        // Sidebar Toggle
-        document.getElementById('sidebarCollapse').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('content').classList.toggle('active');
-        });
-
-        // Navigation Event-Listener
-        document.querySelectorAll('[data-module]').forEach(link => {
-            link.addEventListener('click', (e) => {
+    initializeRouter() {
+        // Event-Listener für Menü-Links
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a[data-module]');
+            if (target) {
                 e.preventDefault();
-                const module = e.currentTarget.getAttribute('data-module');
-                this.loadModule(module);
+                const module = target.getAttribute('data-module');
+                const role = localStorage.getItem('role');
+                this.loadModuleForRole(module, role);
+            }
+        });
+
+        // Logout-Handler
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.replace('login.html');
             });
-        });
+        }
 
-        // Logout Handler
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            this.handleLogout();
-        });
+        // Theme-Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('bi-moon');
+                    icon.classList.toggle('bi-sun');
+                }
+            });
+        }
 
-        // Theme Toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            this.toggleTheme();
-        });
-    }
+        // Sidebar-Toggle
+        const sidebarCollapse = document.getElementById('sidebarCollapse');
+        if (sidebarCollapse) {
+            sidebarCollapse.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+        }
 
-    /**
-     * Initialisiert das Theme basierend auf localStorage
-     */
-    initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        this.updateThemeButton(savedTheme);
-    }
-
-    /**
-     * Wechselt zwischen Light und Dark Theme
-     */
-    toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        this.updateThemeButton(newTheme);
-    }
-
-    /**
-     * Aktualisiert das Theme-Toggle-Button-Icon
-     * @param {string} theme - Aktuelles Theme ('light' oder 'dark')
-     */
-    updateThemeButton(theme) {
-        const button = document.getElementById('themeToggle');
-        if (button) {
-            button.innerHTML = `<i class="bi bi-${theme === 'dark' ? 'sun' : 'moon'}"></i>`;
+        // Initial-Modul laden
+        const role = localStorage.getItem('role');
+        if (role) {
+            this.loadModuleForRole('dashboard', role);
         }
     }
 
-    /**
-     * Behandelt den Logout-Prozess
-     */
-    handleLogout() {
-        sessionStorage.removeItem('userRole');
-        window.location.href = 'login.html';
-    }
-
-    /**
-     * Zeigt das entsprechende Menü basierend auf der Benutzerrolle an
-     * @function
-     */
-    showRoleMenu() {
-        const role = sessionStorage.getItem('userRole');
-        const maklerMenu = document.getElementById('maklerMenu');
-        const betreuerMenu = document.getElementById('betreuerMenu');
+    loadUserInfo() {
+        const role = localStorage.getItem('role');
+        console.log('Lade Benutzerinfo für Rolle:', role);
         
         if (!role) {
-            window.location.href = 'login.html';
+            console.error('Keine Rolle gefunden');
             return;
         }
+
+        // Demo-Benutzerprofile
+        const userProfiles = {
+            'Administrator': {
+                name: 'Arnie Amsel',
+                role: 'Administrator',
+                avatar: 'images/admin.png'
+            },
+            'Betreuer': {
+                name: 'Bert Banane',
+                role: 'Betreuer',
+                avatar: 'images/betreuer.png'
+            },
+            'Makler': {
+                name: 'Manfred Meineid',
+                role: 'Makler',
+                avatar: 'images/makler.png'
+            }
+        };
+
+        const profile = userProfiles[role];
+        if (profile) {
+            const userInfoElement = document.getElementById('userInfo');
+            if (userInfoElement) {
+                userInfoElement.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <img src="${profile.avatar}" alt="${profile.name}" class="rounded-circle me-2" width="32" height="32">
+                        <div>
+                            <div class="fw-bold">${profile.name}</div>
+                            <small class="text-muted">${profile.role}</small>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        this.showMenuForRole(role);
+    }
+
+    showMenuForRole(role) {
+        console.log('Setze Menü für Rolle:', role);
         
-        console.log('Aktuelle Rolle:', role); // Debug-Ausgabe
-        
-        if (role === 'makler') {
-            console.log('Zeige Makler-Menü'); // Debug-Ausgabe
-            maklerMenu.style.display = 'block';
-            betreuerMenu.style.display = 'none';
-        } else if (role === 'betreuer') {
-            console.log('Zeige Betreuer-Menü'); // Debug-Ausgabe
-            maklerMenu.style.display = 'none';
-            betreuerMenu.style.display = 'block';
+        // Alle Menüs ausblenden
+        document.getElementById('adminMenu')?.style.setProperty('display', 'none');
+        document.getElementById('betreuerMenu')?.style.setProperty('display', 'none');
+        document.getElementById('maklerMenu')?.style.setProperty('display', 'none');
+
+        // Korrektes Menü anzeigen
+        switch(role) {
+            case 'Administrator':
+                document.getElementById('adminMenu')?.style.setProperty('display', 'block');
+                break;
+            case 'Betreuer':
+                document.getElementById('betreuerMenu')?.style.setProperty('display', 'block');
+                break;
+            case 'Makler':
+                document.getElementById('maklerMenu')?.style.setProperty('display', 'block');
+                break;
         }
     }
 
-    /**
-     * Setzt die Benutzerrolle für Testzwecke
-     * @param {string} role - Die zu setzende Rolle ('makler' oder 'betreuer')
-     */
-    setUserRole(role) {
-        if (role === 'makler' || role === 'betreuer') {
-            console.log('Setze Rolle auf:', role); // Debug-Ausgabe
-            sessionStorage.setItem('userRole', role);
-            this.showRoleMenu();
-            // Lade das Dashboard als Standardmodul
-            this.loadModule('dashboard');
+    loadModuleForRole(moduleName, role) {
+        console.log('Lade Dashboard für Rolle:', role, 'mit Prefix:', role.toLowerCase());
+        
+        // Mapping der Modul-Namen zu den tatsächlichen Dateinamen
+        const moduleMapping = {
+            'contracts': 'vertrage',
+            'commission': 'provisionen',
+            'users': 'makleruebersicht',
+            'system': 'einstellungen',
+            'reports': 'berichte',
+            'logs': 'system-logs',
+            'makler': 'makleruebersicht',
+            'tickets': 'supportanfragen',
+            'training': 'schulungen',
+            'calendar': 'termine'
+        };
+
+        // Wenn es ein Mapping gibt, verwende den gemappten Namen
+        const mappedModuleName = moduleMapping[moduleName] || moduleName;
+        
+        // Wenn es das Dashboard ist, füge den Rollen-Prefix hinzu
+        if (moduleName === 'dashboard') {
+            this.loadModule(mappedModuleName, role.toLowerCase());
+        } else {
+            // Für andere Module verwende den gemappten Namen ohne Prefix
+            this.loadModule(mappedModuleName);
         }
     }
 
-    /**
-     * Lädt ein Modul und dessen zugehörige JavaScript-Datei
-     * @param {string} moduleName - Name des zu ladenden Moduls
-     */
-    async loadModule(moduleName) {
+    async loadModule(moduleName, rolePrefix = '') {
+        const modulePathPrefix = rolePrefix ? `${rolePrefix}-` : '';
+        const modulePath = `modules/${modulePathPrefix}${moduleName}.html`;
+        
+        console.log('Lade Modul:', modulePath);
+        
         try {
-            console.log('Lade Modul:', moduleName); // Debug-Ausgabe
+            const response = await fetch(modulePath);
             
-            // Lade HTML-Content
-            const response = await fetch(`modules/${moduleName}.html`);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const content = await response.text();
-            
-            // Setze Content
-            document.getElementById('main-content').innerHTML = content;
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.innerHTML = content;
 
-            // Lade und führe Modul-spezifisches JavaScript aus
-            const script = document.createElement('script');
-            script.src = `js/${moduleName}.js`;
-            script.onload = () => {
-                // Initialisiere Modul
-                if (window[`init${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`]) {
-                    window[`init${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)}`]();
-                }
-            };
-            document.body.appendChild(script);
+                // Entferne alte Script-Tags
+                const oldScripts = document.querySelectorAll(`script[data-module="${modulePathPrefix}${moduleName}"]`);
+                oldScripts.forEach(script => script.remove());
 
-            // Aktualisiere aktiven Navigation-Link
-            document.querySelectorAll('[data-module]').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-module') === moduleName) {
-                    link.classList.add('active');
-                }
-            });
-
-            this.currentModule = moduleName;
+                // JavaScript-Datei laden
+                const scriptPath = `js/${modulePathPrefix}${moduleName}.js`;
+                console.log('Lade Script:', scriptPath);
+                
+                const script = document.createElement('script');
+                script.src = scriptPath;
+                script.setAttribute('data-module', `${modulePathPrefix}${moduleName}`);
+                document.body.appendChild(script);
+            }
         } catch (error) {
             console.error('Fehler beim Laden des Moduls:', error);
-            document.getElementById('main-content').innerHTML = '<div class="alert alert-danger">Fehler beim Laden des Moduls</div>';
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="alert alert-danger">
+                        <h4 class="alert-heading">Fehler beim Laden des Moduls</h4>
+                        <p>Das Modul "${modulePath}" konnte nicht geladen werden.</p>
+                        <hr>
+                        <p class="mb-0">Fehlermeldung: ${error.message}</p>
+                    </div>`;
+            }
         }
     }
 }
 
-// Erstelle eine globale Router-Instanz
-let router;
-
-// Event Listener für das Laden der Seite
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM geladen'); // Debug-Ausgabe
-    router = new Router();
-    
-    // Setze für Testzwecke die Rolle auf 'betreuer'
-    router.setUserRole('betreuer');
+// Router initialisieren
+window.addEventListener('DOMContentLoaded', () => {
+    window.router = new Router();
 });
