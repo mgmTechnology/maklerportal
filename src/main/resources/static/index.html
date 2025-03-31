@@ -25,65 +25,105 @@
 
             <!-- Makler Menü -->
             <div id="maklerMenu" style="display: none;">
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="contracts"><i class="bi bi-file-earmark-text"></i> Verträge</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="customers"><i class="bi bi-people"></i> Kunden</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="commission"><i class="bi bi-currency-euro"></i> Provisionen</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="calendar"><i class="bi bi-calendar"></i> Termine</a>
-                    </li>
-                </ul>
+                <div class="menu-group">
+                    <div class="menu-group-title">Hauptfunktionen</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="contracts"><i class="bi bi-file-earmark-text"></i> Verträge</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="customers"><i class="bi bi-people"></i> Kunden</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">Finanzen</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="commission"><i class="bi bi-currency-euro"></i> Provisionen</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="reports"><i class="bi bi-graph-up"></i> Berichte</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">Organisation</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="calendar"><i class="bi bi-calendar"></i> Termine</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="documents"><i class="bi bi-folder"></i> Dokumente</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Administrator Menü -->
             <div id="adminMenu" style="display: none;">
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="users"><i class="bi bi-people"></i> Benutzerverwaltung</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="system"><i class="bi bi-gear"></i> Systemeinstellungen</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="reports"><i class="bi bi-graph-up"></i> Berichte & Statistiken</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="logs"><i class="bi bi-journal-text"></i> System-Logs</a>
-                    </li>
-                </ul>
+                <div class="menu-group">
+                    <div class="menu-group-title">System</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="system"><i class="bi bi-gear"></i> Systemeinstellungen</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="logs"><i class="bi bi-journal-text"></i> System-Logs</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">Verwaltung</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="users"><i class="bi bi-people"></i> Benutzerverwaltung</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="reports"><i class="bi bi-graph-up"></i> Berichte & Statistiken</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Betreuer Menü -->
             <div id="betreuerMenu" style="display: none;">
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="makler"><i class="bi bi-person-badge"></i> Maklerübersicht</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="tickets"><i class="bi bi-ticket"></i> Support-Tickets</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="training"><i class="bi bi-mortarboard"></i> Schulungen</a>
-                    </li>
-                    <li>
-                        <a href="#" data-module="reports"><i class="bi bi-graph-up"></i> Berichte</a>
-                    </li>
-                </ul>
+                <div class="menu-group">
+                    <div class="menu-group-title">Übersicht</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="makler"><i class="bi bi-person-badge"></i> Maklerübersicht</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">Support</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="tickets"><i class="bi bi-ticket"></i> Support-Tickets</a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="training"><i class="bi bi-mortarboard"></i> Schulungen</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu-group">
+                    <div class="menu-group-title">Auswertungen</div>
+                    <ul class="list-unstyled components">
+                        <li>
+                            <a href="#" data-module="reports"><i class="bi bi-graph-up"></i> Berichte</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
 

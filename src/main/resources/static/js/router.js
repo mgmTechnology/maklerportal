@@ -23,9 +23,22 @@ class Router {
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
-                localStorage.clear();
-                sessionStorage.clear();
-                window.location.replace('login.html');
+                try {
+                    // Speichere temporär den Benutzernamen für die Logging-Nachricht
+                    const username = localStorage.getItem('username');
+                    
+                    // Lösche alle gespeicherten Daten
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    
+                    console.log('Benutzer', username, 'erfolgreich abgemeldet');
+                    
+                    // Weiterleitung zur Login-Seite
+                    window.location.replace('login.html');
+                } catch (error) {
+                    console.error('Fehler beim Logout:', error);
+                    alert('Fehler beim Abmelden. Bitte versuchen Sie es erneut.');
+                }
             });
         }
 
