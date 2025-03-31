@@ -59,33 +59,34 @@ class Router {
 
     loadUserInfo() {
         const role = localStorage.getItem('role');
-        console.log('Lade Benutzerinfo für Rolle:', role);
+        const username = localStorage.getItem('username');
+        console.log('Lade Benutzerinfo für:', username, 'Rolle:', role);
         
-        if (!role) {
-            console.error('Keine Rolle gefunden');
+        if (!role || !username) {
+            console.error('Keine Benutzerinformationen gefunden');
             return;
         }
 
         // Demo-Benutzerprofile
         const userProfiles = {
-            'Administrator': {
+            'admin': {
                 name: 'Arnie Amsel',
                 role: 'Administrator',
                 avatar: 'images/admin.png'
             },
-            'Betreuer': {
+            'betreuer': {
                 name: 'Bert Banane',
                 role: 'Betreuer',
                 avatar: 'images/betreuer.png'
             },
-            'Makler': {
+            'makler': {
                 name: 'Manfred Meineid',
                 role: 'Makler',
                 avatar: 'images/makler.png'
             }
         };
 
-        const profile = userProfiles[role];
+        const profile = userProfiles[username];
         if (profile) {
             const userInfoElement = document.getElementById('userInfo');
             if (userInfoElement) {

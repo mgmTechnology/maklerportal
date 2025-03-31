@@ -88,6 +88,7 @@
             if (user && user.password === password && user.role === selectedRole) {
                 // Login erfolgreich
                 localStorage.setItem('role', selectedRole);
+                localStorage.setItem('username', username);
                 window.location.replace('index.html');
             } else {
                 alert('Ungültige Anmeldedaten. Bitte versuchen Sie es erneut.');
