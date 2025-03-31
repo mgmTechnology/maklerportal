@@ -156,6 +156,39 @@
         </div>
     </div>
 
+    <!-- Theme Toggle -->
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <button class="btn btn-primary rounded-circle" id="themeToggle">
+            <i class="bi bi-moon-fill"></i>
+        </button>
+    </div>
+
+    <script>
+        // Theme Toggle Funktionalität
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            const icon = this.querySelector('i');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                icon.classList.remove('bi-sun-fill');
+                icon.classList.add('bi-moon-fill');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.classList.remove('bi-moon-fill');
+                icon.classList.add('bi-sun-fill');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Theme beim Laden wiederherstellen
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('#themeToggle i').classList.replace('bi-moon-fill', 'bi-sun-fill');
+        }
+    </script>
+
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Chart.js -->

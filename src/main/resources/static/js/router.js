@@ -154,7 +154,8 @@ class Router {
             'makler': 'makleruebersicht',
             'tickets': 'supportanfragen',
             'training': 'schulungen',
-            'calendar': 'termine'
+            'calendar': 'termine',
+            'documents': 'dokumenten'  // Korrektes Mapping zu dokumenten.html
         };
 
         // Wenn es ein Mapping gibt, verwende den gemappten Namen
@@ -170,48 +171,44 @@ class Router {
     }
 
     async loadModule(moduleName, rolePrefix = '') {
-        const modulePathPrefix = rolePrefix ? `${rolePrefix}-` : '';
-        const modulePath = `modules/${modulePathPrefix}${moduleName}.html`;
-        
-        console.log('Lade Modul:', modulePath);
-        
         try {
-            const response = await fetch(modulePath);
+            const moduleUrl = rolePrefix 
+                ? `modules/${rolePrefix}-${moduleName}.html` 
+                : `modules/${moduleName}.html`;
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            console.log('Lade Modul:', moduleUrl);
             
+            const response = await fetch(moduleUrl);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const content = await response.text();
-            const mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.innerHTML = content;
-
-                // Entferne alte Script-Tags
-                const oldScripts = document.querySelectorAll(`script[data-module="${modulePathPrefix}${moduleName}"]`);
-                oldScripts.forEach(script => script.remove());
-
-                // JavaScript-Datei laden
-                const scriptPath = `js/${modulePathPrefix}${moduleName}.js`;
-                console.log('Lade Script:', scriptPath);
-                
+            
+            document.getElementById('main-content').innerHTML = content;
+            
+            // Versuche das zugehörige JavaScript zu laden
+            const scriptName = moduleName.replace('-', '_');  // Ersetze Bindestriche durch Unterstriche
+            const scriptUrl = `js/${scriptName}.js`;
+            
+            console.log('Lade Script:', scriptUrl);
+            
+            // Prüfe ob das Script bereits geladen wurde
+            const existingScript = document.querySelector(`script[src="${scriptUrl}"]`);
+            if (!existingScript) {
                 const script = document.createElement('script');
-                script.src = scriptPath;
-                script.setAttribute('data-module', `${modulePathPrefix}${moduleName}`);
+                script.src = scriptUrl;
+                script.onerror = () => {
+                    console.log('Script nicht gefunden:', scriptUrl);
+                    // Fehler beim Laden des Scripts ist nicht kritisch
+                };
                 document.body.appendChild(script);
             }
         } catch (error) {
             console.error('Fehler beim Laden des Moduls:', error);
-            const mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.innerHTML = `
-                    <div class="alert alert-danger">
-                        <h4 class="alert-heading">Fehler beim Laden des Moduls</h4>
-                        <p>Das Modul "${modulePath}" konnte nicht geladen werden.</p>
-                        <hr>
-                        <p class="mb-0">Fehlermeldung: ${error.message}</p>
-                    </div>`;
-            }
+            document.getElementById('main-content').innerHTML = `
+                <div class="alert alert-danger m-3">
+                    <h4 class="alert-heading">Fehler beim Laden des Moduls</h4>
+                    <p>Das Modul "${moduleName}" konnte nicht geladen werden.</p>
+                </div>
+            `;
         }
     }
 }

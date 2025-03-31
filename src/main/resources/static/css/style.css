@@ -276,3 +276,99 @@ body {
     border-color: #404040;
     color: #ffffff;
 }
+
+/* Dokumente Styling */
+.table {
+    --bs-table-hover-bg: var(--sidebar-hover);
+    --bs-table-hover-color: inherit;
+}
+
+.table td, .table th {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.table thead th {
+    font-weight: 600;
+    border-bottom-width: 1px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--sidebar-text);
+}
+
+/* Dokument Icons */
+.document-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--sidebar-text);
+}
+
+/* Card Styling für Dokumente */
+.card {
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Button Styling */
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Suchfeld Styling */
+.input-group .form-control {
+    border-color: var(--border-color);
+}
+
+.input-group .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Dark Mode Anpassungen für Dokumente */
+[data-theme="dark"] .table {
+    --bs-table-hover-bg: var(--sidebar-hover);
+    --bs-table-hover-color: var(--sidebar-text);
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--sidebar-bg);
+}
+
+[data-theme="dark"] .breadcrumb-item.active {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .table td, 
+[data-theme="dark"] .table th {
+    border-color: var(--border-color);
+    color: var(--sidebar-text);
+}
