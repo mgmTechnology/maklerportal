@@ -1,13 +1,11 @@
-name: FTP Deployment
+name: FTP Deploy
 
 on:
   push:
-    branches:
-      - main  # oder master
-    paths-ignore:  # Diese Dateien/Ordner nicht deployen
-      - '.github/**'
-      - '*.md'
-      - '.gitignore'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   web-deploy:
@@ -34,10 +32,10 @@ jobs:
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_HOST }}
-        username: ${{ secrets.FTP_USERNAME }}
+        server: mgm.technology
+        username: mgmtechnology
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_TARGET_DIR }}
+        server-dir: /makler/
         local-dir: ./src/main/resources/static/  # Nur den static-Ordner deployen
         exclude: |
           **/.git*

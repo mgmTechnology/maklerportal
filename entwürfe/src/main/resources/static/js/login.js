@@ -1,1 +1,0 @@
-function simulateLogin() { console.log('Login simuliert'); }

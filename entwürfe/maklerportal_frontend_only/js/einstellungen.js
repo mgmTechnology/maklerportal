@@ -1,1 +1,0 @@
-function initEinstellungen() { console.log('Einstellungen Modul geladen'); } document.addEventListener('DOMContentLoaded', initEinstellungen);
