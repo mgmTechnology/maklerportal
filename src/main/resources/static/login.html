@@ -54,7 +54,7 @@
                         <select class="form-select" id="role" required>
                             <option value="Makler">Makler</option>
                             <option value="Betreuer">Betreuer</option>
-                            <option value="Admin">Administrator</option>
+                            <option value="Administrator">Administrator</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">
@@ -91,6 +91,7 @@
                 localStorage.setItem('username', username);
                 window.location.replace('index.html');
             } else {
+                console.log(username + ' ' + password + ' ' + selectedRole);
                 alert('Ungültige Anmeldedaten. Bitte versuchen Sie es erneut.');
             }
         });

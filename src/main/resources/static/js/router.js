@@ -150,12 +150,13 @@ class Router {
             'users': 'makleruebersicht',
             'system': 'einstellungen',
             'reports': 'berichte',
-            'logs': 'system-logs',
+            'logs': 'system-logs',  // Korrigiere den Dateinamen für system-logs.js
             'makler': 'makleruebersicht',
             'tickets': 'supportanfragen',
             'training': 'schulungen',
             'calendar': 'termine',
-            'documents': 'dokumenten'  // Korrektes Mapping zu dokumenten.html
+            'documents': 'dokumente',  // Korrektes Mapping zu dokumente.html
+            'customers': 'customers'   // Neues Mapping für Kundenverwaltung
         };
 
         // Wenn es ein Mapping gibt, verwende den gemappten Namen
