@@ -1,1 +1,0 @@
-function initKommunikation() { console.log('Kommunikation Modul geladen'); } document.addEventListener('DOMContentLoaded', initKommunikation);

@@ -1,1 +1,0 @@
-function initDashboard() { console.log('Dashboard Modul geladen'); } document.addEventListener('DOMContentLoaded', initDashboard);

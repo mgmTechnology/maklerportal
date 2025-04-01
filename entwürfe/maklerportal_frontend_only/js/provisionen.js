@@ -1,1 +1,0 @@
-function initProvisionen() { console.log('Provisionen Modul geladen'); } document.addEventListener('DOMContentLoaded', initProvisionen);

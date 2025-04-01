@@ -16,14 +16,14 @@ function loadMaklerData() {
     const makler = [
         {
             id: 'M2024001',
-            firstName: 'Thomas',
-            lastName: 'Schmidt',
+            firstName: 'Susanne',
+            lastName: 'vom Stein',
             region: 'nord',
             status: 'active',
             contracts: 24,
             commission: '45.680,00 €',
             lastActivity: '29.03.2024',
-            email: 't.schmidt@email.de',
+            email: 's.vomstein@stein.de',
             phone: '+49 176 12345678',
             qualifications: ['IHK-geprüft', 'DVEP-zertifiziert'],
             performance: {
@@ -36,14 +36,14 @@ function loadMaklerData() {
         },
         {
             id: 'M2024002',
-            firstName: 'Maria',
-            lastName: 'Weber',
+            firstName: 'Kornelia',
+            lastName: 'Pticar',
             region: 'sued',
             status: 'active',
             contracts: 18,
             commission: '38.450,00 €',
             lastActivity: '28.03.2024',
-            email: 'm.weber@email.de',
+            email: 'k.pticar@pticar.de',
             phone: '+49 176 87654321',
             qualifications: ['IHK-geprüft'],
             performance: {
@@ -57,13 +57,13 @@ function loadMaklerData() {
         {
             id: 'M2024003',
             firstName: 'Michael',
-            lastName: 'Koch',
+            lastName: 'Möhre',
             region: 'west',
             status: 'pending',
             contracts: 0,
             commission: '0,00 €',
             lastActivity: '25.03.2024',
-            email: 'm.koch@email.de',
+            email: 'm.moehre@moehre.de',
             phone: '+49 176 11223344',
             qualifications: [],
             performance: {

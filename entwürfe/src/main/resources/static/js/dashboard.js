@@ -1,1 +1,0 @@
-function initDashboard() { console.log('Dashboard geladen'); }
