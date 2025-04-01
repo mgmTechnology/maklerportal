@@ -69,14 +69,16 @@
 }
 
 #sidebar .sidebar-header {
-    padding: 15px;
-    background: var(--primary-color);
-    color: white;
-    text-align: center;
-    height: var(--header-height);
+    padding: 20px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+#sidebar .sidebar-header img {
+    max-width: 100%;
+    height: auto;
 }
 
 #sidebar .sidebar-header h3 {
