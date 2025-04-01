@@ -156,7 +156,9 @@ class Router {
             'training': 'schulungen',
             'calendar': 'termine',
             'documents': 'dokumente',  // Korrektes Mapping zu dokumente.html
-            'customers': 'customers'   // Neues Mapping für Kundenverwaltung
+            'customers': 'customers',   // Neues Mapping für Kundenverwaltung
+            'sys_eva_aida_1': 'sys_eva_aida_1', // Mapping für sys_eva_aida_1-Modul
+            'sys_eva_aida_lv': 'sys_eva_aida_lv' // Mapping für sys_eva_aida_lv-Modul
         };
 
         // Wenn es ein Mapping gibt, verwende den gemappten Namen
