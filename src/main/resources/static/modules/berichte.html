@@ -213,6 +213,117 @@
         </div>
     </div>
 
+    <!-- Berichte -->
+    <div class="container-fluid">
+        <h1 class="mb-4">Berichte</h1>
+
+        <!-- Übersichtskarten -->
+        <div class="row">
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card border-left-primary h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-secondary mb-1">Neugeschäft (MTD)</div>
+                                <div class="h5 mb-0">45.000,00 €</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-graph-up h2 text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card border-left-success h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-secondary mb-1">Neugeschäft (YTD)</div>
+                                <div class="h5 mb-0">320.000,00 €</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-calendar h2 text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card border-left-info h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-secondary mb-1">Aktive Verträge</div>
+                                <div class="h5 mb-0">248</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-file-text h2 text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card border-left-warning h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-secondary mb-1">Offene Anträge</div>
+                                <div class="h5 mb-0">12</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-hourglass-split h2 text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row">
+            <!-- Vertriebszahlen -->
+            <div class="col-xl-8 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Vertriebszahlen</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="vertriebszahlenChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produktverteilung -->
+            <div class="col-xl-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Produktverteilung</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="produktverteilungChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Provisionsübersicht -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Provisionsübersicht</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="provisionsUebersichtChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Export & Planung -->
     <div class="row">
         <div class="col-md-6">
@@ -267,8 +378,12 @@
     </div>
 </div>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <!-- JavaScript -->
 <script src="js/berichte.js"></script>
+<script src="js/reports.js"></script>
 <script>
     // Initialisierung
     document.addEventListener('DOMContentLoaded', function() {

@@ -23,6 +23,9 @@ function loadCustomers() {
     const tableBody = document.getElementById('customerTableBody');
     if (!tableBody) return;
 
+    // Prüfe, ob die Tabelle bereits Daten enthält
+    if (tableBody.children.length > 0) return;
+
     tableBody.innerHTML = ''; // Tabelle leeren
 
     dummyCustomers.forEach(customer => {

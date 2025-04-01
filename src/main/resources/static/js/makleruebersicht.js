@@ -7,13 +7,16 @@ function initMakleruebersicht() {
     initializeFilters();
 }
 
+// Demo-Daten für Makler
+let maklerData = [];
+
 /**
  * Lädt die Maklerdaten
  * @function
  */
 function loadMaklerData() {
-    // Dummy-Daten für Makler
-    const makler = [
+    // Demo-Daten für Makler
+    maklerData = [
         {
             id: 'M2024001',
             firstName: 'Susanne',
@@ -75,30 +78,45 @@ function loadMaklerData() {
             }
         }
     ];
+    
+    // Aktualisiere die Tabelle
+    updateMaklerTable();
+}
 
+/**
+ * Aktualisiert die Maklertabelle mit den aktuellen Daten
+ * @function
+ */
+function updateMaklerTable() {
     const tableBody = document.getElementById('maklerTableBody');
-    tableBody.innerHTML = makler.map(m => `
-        <tr>
-            <td>${m.id}</td>
-            <td>${m.firstName} ${m.lastName}</td>
-            <td>${getRegionText(m.region)}</td>
-            <td><span class="badge bg-${getStatusBadgeClass(m.status)}">${getStatusText(m.status)}</span></td>
-            <td>${m.contracts}</td>
-            <td>${m.commission}</td>
-            <td>${m.lastActivity}</td>
+    if (!tableBody) return;
+
+    tableBody.innerHTML = '';
+    
+    maklerData.forEach(makler => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${makler.id}</td>
+            <td>${makler.firstName} ${makler.lastName}</td>
+            <td>${getRegionText(makler.region)}</td>
+            <td><span class="badge bg-${getStatusBadgeClass(makler.status)}">${getStatusText(makler.status)}</span></td>
+            <td>${makler.contracts}</td>
+            <td>${makler.commission}</td>
+            <td>${makler.lastActivity}</td>
             <td>
-                <button class="btn btn-sm btn-outline-primary me-1" onclick="viewMaklerDetails('${m.id}')">
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="viewMaklerDetails('${makler.id}')">
                     <i class="bi bi-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="contactMakler('${m.id}')">
+                <button class="btn btn-sm btn-outline-secondary me-1" onclick="contactMakler('${makler.id}')">
                     <i class="bi bi-chat"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-info" onclick="editMakler('${m.id}')">
+                <button class="btn btn-sm btn-outline-info" onclick="editMakler('${makler.id}')">
                     <i class="bi bi-pencil"></i>
                 </button>
             </td>
-        </tr>
-    `).join('');
+        `;
+        tableBody.appendChild(row);
+    });
 }
 
 /**
@@ -346,6 +364,11 @@ function getStatusText(status) {
         default: return status;
     }
 }
+
+// Event Listener für Seitenladung
+document.addEventListener('DOMContentLoaded', function() {
+    loadMaklerData();
+});
 
 // Initialisiere die Maklerübersicht wenn sie geladen wird
 if (typeof router !== 'undefined') {

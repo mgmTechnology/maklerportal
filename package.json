@@ -1,0 +1,11 @@
+{
+  "name": "maklerportal",
+  "version": "1.0.0",
+  "description": "Maklerportal Testing",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

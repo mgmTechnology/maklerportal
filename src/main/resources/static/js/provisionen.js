@@ -6,6 +6,8 @@ function initProvisionen() {
     loadSummary();
     loadCommissions();
     initializeEventListeners();
+    loadProvisionsTable();
+    loadProvisionsSummary();
 }
 
 /**
@@ -209,6 +211,151 @@ function exportCommissionDetails() {
     console.log('Exporting commission details...');
     // Hier würde die Export-Logik implementiert
 }
+
+/**
+ * Provisionen Funktionalität
+ */
+
+// Demo-Daten für Provisionen
+const demoProvisionen = [
+    { 
+        id: 'P001', 
+        datum: '2024-03-15', 
+        vertragsnummer: 'LV-2024-001',
+        kunde: 'Max Mustermann',
+        versicherungsart: 'Lebensversicherung',
+        jahresbeitrag: 1200.00,
+        provision: 2500.00,
+        status: 'Ausgezahlt'
+    },
+    { 
+        id: 'P002', 
+        datum: '2024-03-20',
+        vertragsnummer: 'KFZ-2024-002',
+        kunde: 'Anna Schmidt',
+        versicherungsart: 'KFZ-Versicherung',
+        jahresbeitrag: 960.00,
+        provision: 750.00,
+        status: 'In Bearbeitung'
+    },
+    { 
+        id: 'P003', 
+        datum: '2024-03-25',
+        vertragsnummer: 'HR-2024-003',
+        kunde: 'Peter Meyer',
+        versicherungsart: 'Hausratversicherung',
+        jahresbeitrag: 240.00,
+        provision: 450.00,
+        status: 'Ausstehend'
+    }
+];
+
+/**
+ * Lädt die Zusammenfassung der Provisionen
+ */
+function loadProvisionsSummary() {
+    // MTD (Month to Date) Provisionen
+    const mtdProvisionen = demoProvisionen
+        .filter(p => new Date(p.datum).getMonth() === new Date().getMonth())
+        .reduce((sum, p) => sum + p.provision, 0);
+    
+    // YTD (Year to Date) Provisionen
+    const ytdProvisionen = demoProvisionen
+        .filter(p => new Date(p.datum).getFullYear() === new Date().getFullYear())
+        .reduce((sum, p) => sum + p.provision, 0);
+    
+    // Offene Provisionen
+    const offeneProvisionen = demoProvisionen
+        .filter(p => p.status !== 'Ausgezahlt')
+        .reduce((sum, p) => sum + p.provision, 0);
+
+    // Aktualisiere die Anzeige
+    document.getElementById('mtdCommission').textContent = 
+        mtdProvisionen.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+    document.getElementById('ytdCommission').textContent = 
+        ytdProvisionen.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+    document.getElementById('pendingCommission').textContent = 
+        offeneProvisionen.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+}
+
+/**
+ * Lädt die Provisionsdaten und zeigt sie in der Tabelle an
+ */
+function loadProvisionsTable() {
+    const tableBody = document.getElementById('commissionsTableBody');
+    if (!tableBody) return;
+
+    // Prüfe, ob die Tabelle bereits Daten enthält
+    if (tableBody.children.length > 0) return;
+
+    demoProvisionen.forEach(provision => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${provision.datum}</td>
+            <td>${provision.vertragsnummer}</td>
+            <td>${provision.kunde}</td>
+            <td>${provision.versicherungsart}</td>
+            <td>${provision.jahresbeitrag.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</td>
+            <td>${provision.provision.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</td>
+            <td><span class="badge bg-${getStatusBadgeClass(provision.status)}">${provision.status}</span></td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="showProvisionDetails('${provision.id}')">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+/**
+ * Bestimmt die CSS-Klasse für den Status-Badge
+ */
+function getStatusBadgeClass(status) {
+    switch (status) {
+        case 'Ausgezahlt': return 'success';
+        case 'In Bearbeitung': return 'warning';
+        case 'Ausstehend': return 'secondary';
+        default: return 'primary';
+    }
+}
+
+/**
+ * Zeigt die Details einer Provision an
+ */
+function showProvisionDetails(id) {
+    const provision = demoProvisionen.find(p => p.id === id);
+    if (!provision) return;
+
+    const detailsContainer = document.getElementById('commissionDetails');
+    if (!detailsContainer) return;
+
+    detailsContainer.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Vertragsnummer:</strong> ${provision.vertragsnummer}</p>
+                <p><strong>Kunde:</strong> ${provision.kunde}</p>
+                <p><strong>Versicherungsart:</strong> ${provision.versicherungsart}</p>
+                <p><strong>Datum:</strong> ${provision.datum}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Jahresbeitrag:</strong> ${provision.jahresbeitrag.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+                <p><strong>Provision:</strong> ${provision.provision.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+                <p><strong>Status:</strong> <span class="badge bg-${getStatusBadgeClass(provision.status)}">${provision.status}</span></p>
+            </div>
+        </div>
+    `;
+
+    // Modal öffnen
+    const modal = new bootstrap.Modal(document.getElementById('commissionDetailsModal'));
+    modal.show();
+}
+
+// Event Listener für Seitenladung
+document.addEventListener('DOMContentLoaded', function() {
+    loadProvisionsTable();
+    loadProvisionsSummary();
+});
 
 // Initialisiere das Provisionen-Modul wenn es geladen wird
 if (typeof router !== 'undefined') {

@@ -106,12 +106,23 @@ function applySettings(settings) {
 
     // Benachrichtigungs-Einstellungen
     if (settings.notifications) {
-        document.getElementById('emailNewContract').checked = settings.notifications.email.newContract;
-        document.getElementById('emailNewMessage').checked = settings.notifications.email.newMessage;
-        document.getElementById('emailNewTicket').checked = settings.notifications.email.newTicket;
-        document.getElementById('pushNewContract').checked = settings.notifications.push.newContract;
-        document.getElementById('pushNewMessage').checked = settings.notifications.push.newMessage;
-        document.getElementById('pushNewTicket').checked = settings.notifications.push.newTicket;
+        // Email-Benachrichtigungen
+        const emailNewContract = document.getElementById('emailNewContract');
+        const emailNewMessage = document.getElementById('emailNewMessage');
+        const emailNewTicket = document.getElementById('emailNewTicket');
+        
+        if (emailNewContract) emailNewContract.checked = settings.notifications.email?.newContract || false;
+        if (emailNewMessage) emailNewMessage.checked = settings.notifications.email?.newMessage || false;
+        if (emailNewTicket) emailNewTicket.checked = settings.notifications.email?.newTicket || false;
+        
+        // Push-Benachrichtigungen
+        const pushNewContract = document.getElementById('pushNewContract');
+        const pushNewMessage = document.getElementById('pushNewMessage');
+        const pushNewTicket = document.getElementById('pushNewTicket');
+        
+        if (pushNewContract) pushNewContract.checked = settings.notifications.push?.newContract || false;
+        if (pushNewMessage) pushNewMessage.checked = settings.notifications.push?.newMessage || false;
+        if (pushNewTicket) pushNewTicket.checked = settings.notifications.push?.newTicket || false;
     }
 
     // Erscheinungsbild-Einstellungen

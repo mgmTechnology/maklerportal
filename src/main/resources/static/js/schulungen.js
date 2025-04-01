@@ -6,8 +6,81 @@ function initSchulungen() {
     loadStatistics();
     loadTrainings();
     loadCertifications();
-    initializeCalendar();
+    // Warte auf das vollständige Laden der Seite und FullCalendar
+    if (document.readyState === 'complete') {
+        initializeCalendarWhenReady();
+    } else {
+        window.addEventListener('load', initializeCalendarWhenReady);
+    }
     loadMaklerForSelect();
+}
+
+/**
+ * Wartet auf das Laden von FullCalendar und initialisiert dann den Kalender
+ * @function
+ */
+function initializeCalendarWhenReady() {
+    // Prüfe ob FullCalendar verfügbar ist
+    if (typeof FullCalendar === 'undefined') {
+        // Warte 100ms und versuche es erneut
+        setTimeout(initializeCalendarWhenReady, 100);
+        return;
+    }
+    initializeCalendar();
+}
+
+/**
+ * Initialisiert den Kalender
+ * @function
+ */
+function initializeCalendar() {
+    const calendarEl = document.getElementById('trainingCalendar');
+    if (!calendarEl) {
+        console.error('Calendar element not found');
+        return;
+    }
+
+    try {
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'de',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            buttonText: {
+                today: 'Heute',
+                month: 'Monat',
+                week: 'Woche',
+                day: 'Tag'
+            },
+            events: [
+                {
+                    title: 'Produktschulung: Neue KFZ-Tarife',
+                    start: '2024-04-15',
+                    end: '2024-04-15',
+                    color: '#2c7be5'
+                },
+                {
+                    title: 'Verkaufstraining: Beratungsgespräche',
+                    start: '2024-04-22',
+                    end: '2024-04-22',
+                    color: '#00d97e'
+                },
+                {
+                    title: 'Digitale Tools: CRM-System',
+                    start: '2024-03-28',
+                    end: '2024-03-28',
+                    color: '#39afd1'
+                }
+            ]
+        });
+
+        calendar.render();
+    } catch (error) {
+        console.error('Fehler beim Initialisieren des Kalenders:', error);
+    }
 }
 
 /**
@@ -139,43 +212,6 @@ function loadCertifications() {
             </td>
         </tr>
     `).join('');
-}
-
-/**
- * Initialisiert den Kalender
- * @function
- */
-function initializeCalendar() {
-    const calendarEl = document.getElementById('trainingCalendar');
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        events: [
-            {
-                title: 'Produktschulung: Neue KFZ-Tarife',
-                start: '2024-04-15',
-                end: '2024-04-15',
-                color: '#2c7be5'
-            },
-            {
-                title: 'Verkaufstraining: Beratungsgespräche',
-                start: '2024-04-22',
-                end: '2024-04-22',
-                color: '#00d97e'
-            },
-            {
-                title: 'Digitale Tools: CRM-System',
-                start: '2024-03-28',
-                end: '2024-03-28',
-                color: '#39afd1'
-            }
-        ]
-    });
-    calendar.render();
 }
 
 /**
