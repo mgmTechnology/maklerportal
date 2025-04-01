@@ -1,0 +1,23 @@
+{
+  "name": "maklerportal",
+  "version": "1.0.0",
+  "description": "Maklerportal für die Verwaltung von Versicherungen und Kunden",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/test"
+    ],
+    "testMatch": [
+      "**/*.smoketest.js",
+      "**/*.test.js"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
