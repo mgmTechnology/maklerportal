@@ -157,8 +157,8 @@ class Router {
             'calendar': 'termine',
             'documents': 'dokumente',  // Korrektes Mapping zu dokumente.html
             'customers': 'customers',   // Neues Mapping für Kundenverwaltung
-            'sys_eva_aida_1': 'sys_eva_aida_1', // Mapping für sys_eva_aida_1-Modul
-            'sys_eva_aida_lv': 'sys_eva_aida_lv' // Mapping für sys_eva_aida_lv-Modul
+            'sys_eva_aida_neuvertraege': 'sys_eva_aida_neuvertraege', // Mapping für AIDA Neuverträge
+            'sys_eva_aida_lv': 'sys_eva_aida_lv' // Mapping für AIDA Lebensversicherung
         };
 
         // Wenn es ein Mapping gibt, verwende den gemappten Namen
