@@ -87,6 +87,151 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
+ * Termine Funktionalität
+ */
+
+// Demo-Daten für Termine
+const demoTermine = [
+    {
+        id: 'T001',
+        datum: '2024-04-02',
+        uhrzeit: '10:00',
+        titel: 'Kundengespräch',
+        kunde: 'Max Mustermann',
+        ort: 'Büro',
+        status: 'Anstehend',
+        notizen: 'Besprechung Altersvorsorge'
+    },
+    {
+        id: 'T002',
+        datum: '2024-04-03',
+        uhrzeit: '14:30',
+        titel: 'Vertragsabschluss',
+        kunde: 'Anna Müller',
+        ort: 'Kunde vor Ort',
+        status: 'Bestätigt',
+        notizen: 'KFZ-Versicherung'
+    },
+    {
+        id: 'T003',
+        datum: '2024-04-05',
+        uhrzeit: '11:00',
+        titel: 'Beratung',
+        kunde: 'Peter Meyer',
+        ort: 'Online',
+        status: 'Anfrage',
+        notizen: 'Hausratversicherung'
+    }
+];
+
+/**
+ * Initialisiert die Terminübersicht
+ */
+function initTermine() {
+    loadTermine();
+    loadAlleTermine();
+}
+
+/**
+ * Lädt die anstehenden Termine
+ */
+function loadTermine() {
+    const tableBody = document.getElementById('termineTableBody');
+    if (!tableBody) return;
+
+    // Prüfe, ob die Tabelle bereits Daten enthält
+    if (tableBody.children.length > 0) return;
+
+    // Sortiere Termine nach Datum
+    const sortedTermine = [...demoTermine].sort((a, b) => 
+        new Date(a.datum + ' ' + a.uhrzeit) - new Date(b.datum + ' ' + b.uhrzeit)
+    );
+
+    sortedTermine.forEach(termin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${termin.datum}<br>${termin.uhrzeit}</td>
+            <td>${termin.titel}</td>
+            <td><span class="badge bg-${getStatusBadgeClass(termin.status)}">${termin.status}</span></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+/**
+ * Lädt alle Termine in die Haupttabelle
+ */
+function loadAlleTermine() {
+    const tableBody = document.getElementById('alleTermineTableBody');
+    if (!tableBody) return;
+
+    // Prüfe, ob die Tabelle bereits Daten enthält
+    if (tableBody.children.length > 0) return;
+
+    demoTermine.forEach(termin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${termin.datum}<br>${termin.uhrzeit}</td>
+            <td>${termin.titel}</td>
+            <td>${termin.kunde}</td>
+            <td>${termin.ort}</td>
+            <td><span class="badge bg-${getStatusBadgeClass(termin.status)}">${termin.status}</span></td>
+            <td>
+                <button class="btn btn-sm btn-primary" onclick="showTerminDetails('${termin.id}')">
+                    <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteTermin('${termin.id}')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+/**
+ * Bestimmt die CSS-Klasse für den Status-Badge
+ */
+function getStatusBadgeClass(status) {
+    switch (status) {
+        case 'Anstehend': return 'primary';
+        case 'Bestätigt': return 'success';
+        case 'Anfrage': return 'warning';
+        case 'Abgesagt': return 'danger';
+        default: return 'secondary';
+    }
+}
+
+/**
+ * Öffnet das Modal für einen neuen Termin
+ */
+function openNewTerminModal() {
+    // TODO: Implementiere das Modal für neue Termine
+    alert('Funktion zum Erstellen neuer Termine wird noch implementiert');
+}
+
+/**
+ * Zeigt die Details eines Termins an
+ */
+function showTerminDetails(id) {
+    const termin = demoTermine.find(t => t.id === id);
+    if (!termin) return;
+
+    // TODO: Implementiere die Detailansicht
+    alert(`Details für Termin ${termin.titel} werden noch implementiert`);
+}
+
+/**
+ * Löscht einen Termin
+ */
+function deleteTermin(id) {
+    if (confirm('Möchten Sie diesen Termin wirklich löschen?')) {
+        const row = document.querySelector(`tr[data-id="${id}"]`);
+        if (row) row.remove();
+    }
+}
+
+/**
  * Öffnet den Dialog für einen neuen Termin
  * @param {number} year - Das Jahr
  * @param {number} month - Der Monat (0-11)
@@ -98,3 +243,8 @@ function addTermin(year, month, day) {
     alert(`Neuer Termin für ${formattedDate}`);
     // Hier könnte ein Modal oder Formular geöffnet werden
 }
+
+// Event Listener für Seitenladung
+document.addEventListener('DOMContentLoaded', function() {
+    initTermine();
+});

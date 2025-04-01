@@ -1,2 +1,48 @@
+<<<<<<< HEAD
 node_modules/
 .history/
+=======
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# IDE
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Compiled output
+dist/
+build/
+target/
+out/
+*.class
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Testing
+coverage/
+.nyc_output/
+>>>>>>> 40e36c2e4348ce729c6690e59103b493e6b29e4a

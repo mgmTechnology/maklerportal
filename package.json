@@ -1,6 +1,7 @@
 {
   "name": "maklerportal",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "Maklerportal für die Verwaltung von Versicherungen und Kunden",
   "main": "index.js",
   "scripts": {
@@ -16,6 +17,11 @@
       "**/*.smoketest.js",
       "**/*.test.js"
     ]
+=======
+  "description": "Maklerportal Testing",
+  "scripts": {
+    "test": "jest"
+>>>>>>> 40e36c2e4348ce729c6690e59103b493e6b29e4a
   },
   "devDependencies": {
     "jest": "^29.7.0"

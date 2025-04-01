@@ -46,4 +46,76 @@
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Termine -->
+    <div class="container-fluid">
+        <h1 class="mb-4">Termine</h1>
+
+        <div class="row mb-4">
+            <!-- Kalender -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="kalender"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anstehende Termine -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Anstehende Termine</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Datum</th>
+                                        <th>Titel</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="termineTableBody">
+                                    <!-- Wird durch JavaScript gefüllt -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alle Termine -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Alle Termine</h5>
+                <button class="btn btn-primary btn-sm" onclick="openNewTerminModal()">
+                    <i class="bi bi-plus"></i> Neuer Termin
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Datum/Uhrzeit</th>
+                                <th>Titel</th>
+                                <th>Kunde</th>
+                                <th>Ort</th>
+                                <th>Status</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alleTermineTableBody">
+                            <!-- Wird durch JavaScript gefüllt -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/termine.js"></script>

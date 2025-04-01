@@ -154,6 +154,7 @@ function initializeCharts() {
     initVertragsentwicklung();
     initProduktverteilung();
     initRegionaleVerteilung();
+    initContracts();
 }
 
 /**
@@ -252,6 +253,50 @@ function initRegionaleVerteilung() {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Initialisiert das Chart für die Vertragsbestand
+ * @function
+ */
+function initContracts() {
+    const ctx = document.getElementById('contractsChart').getContext('2d');
+    const data = {
+        labels: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun'],
+        datasets: [
+            {
+                label: 'Neugeschäft',
+                data: [25, 30, 35, 40, 35, 45],
+                backgroundColor: 'rgb(75, 192, 192)'
+            },
+            {
+                label: 'Bestand',
+                data: [200, 220, 245, 275, 300, 335],
+                backgroundColor: 'rgb(54, 162, 235)'
+            }
+        ]
+    };
+    new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Anzahl Verträge'
+                    }
                 }
             }
         }

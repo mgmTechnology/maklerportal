@@ -3,7 +3,7 @@
  */
 
 // Beispiel-Logs für die Demonstration
-const dummyLogs = [
+let dummyLogs = [
     {
         timestamp: '2024-04-01 08:30:15',
         level: 'INFO',
@@ -28,11 +28,17 @@ const dummyLogs = [
 ];
 
 /**
- * Initialisiert die Logs-Ansicht
+ * Initialisiert das System-Logs Modul
  */
-document.addEventListener('DOMContentLoaded', function() {
+function initSystemLogs() {
     loadLogs();
-});
+    
+    // Event-Listener für Export-Button
+    document.getElementById('exportLogs')?.addEventListener('click', exportLogs);
+    
+    // Event-Listener für Clear-Button
+    document.getElementById('clearLogs')?.addEventListener('click', clearLogs);
+}
 
 /**
  * Lädt die System-Logs in die Tabelle
@@ -51,8 +57,8 @@ function loadLogs() {
             <td>${log.user}</td>
             <td>${log.event}</td>
             <td>
-                <button class="btn btn-sm btn-info" onclick='showLogDetails(${JSON.stringify(log)})'>
-                    <i class="bi bi-eye"></i>
+                <button class="btn btn-sm btn-info" onclick="showLogDetails(${JSON.stringify(log).replace(/"/g, '&quot;')})">
+                    Details
                 </button>
             </td>
         `;
@@ -66,11 +72,15 @@ function loadLogs() {
  * @returns {string} Bootstrap-Farbe
  */
 function getLevelColor(level) {
-    switch (level.toUpperCase()) {
-        case 'ERROR': return 'danger';
-        case 'WARNING': return 'warning';
-        case 'INFO': return 'info';
-        default: return 'secondary';
+    switch(level.toUpperCase()) {
+        case 'ERROR':
+            return 'danger';
+        case 'WARNING':
+            return 'warning';
+        case 'INFO':
+            return 'info';
+        default:
+            return 'secondary';
     }
 }
 
@@ -79,24 +89,32 @@ function getLevelColor(level) {
  * @param {Object} log - Log-Eintrag
  */
 function showLogDetails(log) {
-    const modal = new bootstrap.Modal(document.getElementById('logDetailsModal'));
-    document.getElementById('logDetails').textContent = JSON.stringify(log, null, 2);
-    modal.show();
+    const modal = document.getElementById('logDetailsModal');
+    if (!modal) return;
+
+    document.getElementById('logDetailsTitle').textContent = `Log Details - ${log.event}`;
+    document.getElementById('logDetailsBody').innerHTML = `
+        <p><strong>Zeitstempel:</strong> ${log.timestamp}</p>
+        <p><strong>Level:</strong> ${log.level}</p>
+        <p><strong>Benutzer:</strong> ${log.user}</p>
+        <p><strong>Event:</strong> ${log.event}</p>
+        <p><strong>Details:</strong> ${log.details}</p>
+    `;
+
+    new bootstrap.Modal(modal).show();
 }
 
 /**
  * Exportiert die Logs als JSON-Datei
  */
 function exportLogs() {
-    const dataStr = JSON.stringify(dummyLogs, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'system-logs.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dummyLogs, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "system_logs.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
 }
 
 /**
@@ -104,7 +122,10 @@ function exportLogs() {
  */
 function clearLogs() {
     if (confirm('Möchten Sie wirklich alle Logs löschen?')) {
-        dummyLogs.length = 0;
+        dummyLogs = [];
         loadLogs();
     }
 }
+
+// Initialisiere das System-Logs Modul
+initSystemLogs();
